@@ -11,6 +11,7 @@ add_executable(Orion
     src/main.cpp
     src/core/Application.cpp
     src/core/Window.cpp
+    src/core/Input.cpp
     src/core/Time.cpp
     src/renderer/Renderer.cpp
     src/renderer/Camera.cpp

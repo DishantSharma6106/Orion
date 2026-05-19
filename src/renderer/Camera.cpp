@@ -2,8 +2,12 @@
 
 Camera::Camera(float aspect) : aspectRatio(aspect) {}
 
+void Camera::setPosition(const glm::vec3& position) {
+    pos = position;
+}
+
 glm::mat4 Camera::view() const {
-    return glm::lookAt(pos, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    return glm::lookAt(pos, pos + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 }
 
 glm::mat4 Camera::projection() const {

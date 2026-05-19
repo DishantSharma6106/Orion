@@ -7,6 +7,8 @@ class Camera {
 public:
     Camera(float aspect);
 
+    void setPosition(const glm::vec3& position);
+
     glm::mat4 view() const;
     glm::mat4 projection() const;
 

@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include <glad/gl.h>
+#include "../ecs/Components.h"
 
 const char* vertexShaderSource = R"(
 #version 330 core
@@ -92,21 +93,30 @@ Renderer::~Renderer() {
     glDeleteBuffers(1, &VBO);
 }
 
-void Renderer::render(const Game&) {
+void Renderer::render(const Game& game) {
     glClearColor(0.08f, 0.08f, 0.12f, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    shader->bind();
+    auto& registry = game.getRegistry();
+    auto view = registry.view<const Transform, const PlayerController>();
+    for (auto entity : view) {
+        const auto& transform = view.get<const Transform>(entity);
+        // Make camera follow player
+        camera->setPosition(glm::vec3(transform.position.x, transform.position.y + 2.0f, 5.0f));
 
-    glm::mat4 projection = camera->projection();
-    shader->setMat4("projection", projection);
+        shader->bind();
 
-    glm::mat4 view = camera->view();
-    shader->setMat4("view", view);
+        glm::mat4 projection = camera->projection();
+        shader->setMat4("projection", projection);
 
-    glm::mat4 model = glm::mat4(1.0f);
-    shader->setMat4("model", model);
+        glm::mat4 viewMat = camera->view();
+        shader->setMat4("view", viewMat);
 
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(transform.position.x, transform.position.y, 0.0f));
+        shader->setMat4("model", model);
+
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 }
