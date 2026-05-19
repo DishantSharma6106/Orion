@@ -14,6 +14,7 @@ add_executable(Orion
     src/core/Time.cpp
     src/renderer/Renderer.cpp
     src/renderer/Camera.cpp
+    src/renderer/Shader.cpp
     src/ecs/Systems.cpp
     src/game/Game.cpp
     src/game/PlayerSystem.cpp
