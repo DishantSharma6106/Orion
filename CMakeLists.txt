@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Orion LANGUAGES CXX)
+project(Orion LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -24,7 +24,9 @@ target_include_directories(Orion PRIVATE
     src
     external/glm
     external/imgui
-    external/entt
+    external/entt/src
+    external/glad/include
+    external/SDL2/include
 )
 
 target_link_libraries(Orion PRIVATE SDL2 glad)
